@@ -20,7 +20,7 @@ class SubHeaders(models.Model):
 
 new_category_choices=[
     ('bangladesh & politics','Bangladesh & politics'),
-    ('bangladesh & economics','Bangladesh & economics'),
+    ('angladesh & economics','Bangladesh & economics'),
     ('bangladesh & report','Bangladesh & report'),
     ('national','National'),
     ('international','International'),
@@ -29,6 +29,11 @@ new_category_choices=[
       ('opinions','Opinions'),
     ('jobs','Jobs'),
 ]
+ad_position_choices=[
+        ('Insection_ad','InSection_ad'),
+        ('Top','Top'),
+        ('Sidebar','Sidebar')
+    ]
 
 class User(AbstractUser):
     username=models.CharField(max_length=100)
@@ -46,17 +51,16 @@ class News(models.Model):
     news_content=models.CharField(max_length=50000,null=True)
     created_at=models.DateTimeField(default=now(),null=True)
     read_times=models.IntegerField(null=True)
+    written_by=models.CharField(max_length=150,null=True)
+    publishing_status=models.BooleanField(default=False,null=True)
+    relavant_topics=models.CharField(max_length=150,null=True)
     def __str__(self):
         return self.news_title
    
 class NewsPhoto(models.Model):
     news_reference=models.ForeignKey(News,on_delete=models.CASCADE,related_name='file_reference')
     image=models.ImageField()
-ad_position_choices=[
-    ('Insection_ad','InSection_ad'),
-    ('top','Top'),
-    ('sidebar','Sidebar')
-]
+    
 class Opinion(News):
     speaker=models.CharField(max_length=50)
     def __str__(self):
@@ -65,5 +69,6 @@ class Advertisement(models.Model):
     image=models.FileField(upload_to='advertisement')
     position=models.CharField(max_length=50,choices=ad_position_choices)
     url=models.CharField(max_length=100,null=True)
+    publishing_status=models.BooleanField(default=False,null=True)
 
 
